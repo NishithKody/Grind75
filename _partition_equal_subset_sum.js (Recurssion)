@@ -1,0 +1,37 @@
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+var canPartition = function(nums) {
+
+    let util=(i,total)=>{
+        // console.log('i ,total',i,total)
+        if(total == 0 )
+            return true
+        
+        if(i==0){
+            if(nums[i]==total)
+                return true
+            else 
+                return false
+        }
+        
+        let notTake = util(i-1, total)
+        let take = false
+        if(total>=nums[i]){
+            take = util(i-1, total-nums[i])
+        }
+
+        return take || notTake
+    }
+
+    let sum = 0
+    for(let i of nums){
+        sum = sum + i
+    }
+    let value = sum/2;
+    // console.log('value',value)
+
+    return util(nums.length-1, value)
+    
+};
