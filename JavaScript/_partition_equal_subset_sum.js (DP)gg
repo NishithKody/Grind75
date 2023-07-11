@@ -1,0 +1,49 @@
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+var canPartition = function(nums) {
+
+    let n = nums.length
+    let sum = 0
+    for(let i of nums){
+        sum = sum + i
+    }
+    let value = sum/2;
+    if(sum%2!=0){
+        return false
+    }
+
+   
+    //dp[n][target]
+    let dp = new Array(n+1)
+    for(let i=0; i<=n; i++){
+        dp[i] = new Array(value+1).fill(false)
+    }
+
+    //This is for the base case to get sum 0 with no elements selected
+    dp[0][0] = true
+
+    //Or the initial target column will be true
+    for(let i=0;i<=n;i++){
+        dp[i][0]=true
+    }
+    console.log('initial array',dp)
+
+    for(let i=1; i<=n; i++){
+        for(let j=1; j<=value; j++){
+            dp[i][j] = dp[i-1][j]
+
+            if(j - nums[i-1]>=0){
+                dp[i][j] = dp[i][j] || dp[i-1][j-nums[i-1]]
+            }
+        }
+    }
+    
+    return dp[n][value]
+
+};
+
+//ref 
+// https://leetcode.com/problems/partition-equal-subset-sum/solutions/462699/whiteboard-editorial-all-approaches-explained/
+// https://leetcode.com/problems/partition-equal-subset-sum/solutions/90592/0-1-knapsack-detailed-explanation/
