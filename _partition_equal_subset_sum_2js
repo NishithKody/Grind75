@@ -1,0 +1,35 @@
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+var canPartition = function(nums) {
+
+    
+
+    let sum = 0
+    for(let i of nums){
+        sum = sum + i
+    }
+    let value = sum/2;
+
+    let util=(index,sum)=>{
+        if(sum === 0){
+            return true
+        }
+
+        if(sum<0 || index>=nums.length)
+            return false
+        
+        let notTake = util(index+1,sum)
+        let take = false
+        if(sum>=nums[index]){
+            take = util(index+1,sum-nums[index])
+        }
+
+        return notTake || take
+    }
+
+    return util(0,value)
+
+    
+};
